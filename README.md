@@ -1,0 +1,91 @@
+# Codex Account Switcher
+
+A tiny native macOS menu-bar controller for running two isolated accounts in
+the signed Codex desktop app.
+
+It keeps the official app bundle unchanged. The Secondary profile launches a
+separate process with its own Codex home and Electron data directory:
+
+```text
+Primary:   ~/.codex       + ~/Library/Application Support/Codex
+Secondary: ~/.codex-work  + ~/Library/Application Support/Codex Second
+```
+
+## Features
+
+- Open or focus Primary with `Option-Command-1`.
+- Open or focus Secondary with `Option-Command-2`.
+- Keep both running for background work.
+- Open or quit either profile from the menu bar.
+- Finder/Spotlight launchers for Primary, Secondary, and Open Both.
+- Start the switcher automatically at login.
+- Optional Dock cleanup that keeps one official Codex pin.
+
+## Requirements
+
+- macOS 14 or later.
+- The signed Codex desktop app installed as `/Applications/ChatGPT.app` or
+  `~/Applications/ChatGPT.app`.
+- Xcode Command Line Tools (`xcode-select --install`).
+
+## Install
+
+```zsh
+git clone https://github.com/edihasaj/codex-account-switcher.git
+cd codex-account-switcher
+./install.sh
+```
+
+To also remove duplicate/launcher Dock pins and retain one official app pin:
+
+```zsh
+./install.sh --fix-dock
+```
+
+On first Secondary launch, sign into the second account. Later launches reuse
+that isolated profile.
+
+## Usage
+
+Use the menu-bar people icon, the keyboard shortcuts, or the three launchers in
+`~/Applications`:
+
+- `Codex Primary.app`
+- `Codex Secondary.app`
+- `Codex Open Both.app`
+
+Focus switching does not quit the other profile. Use the menu's explicit Quit
+commands when you want to stop one.
+
+## Uninstall
+
+```zsh
+./uninstall.sh
+```
+
+Uninstalling leaves `~/.codex`, `~/.codex-work`, and both desktop-data
+directories intact.
+
+## How it works
+
+The switcher compiles locally with Apple's Swift compiler and is ad-hoc signed.
+It launches the unchanged official app with `open -n`, setting `CODEX_HOME` and
+`--user-data-dir` for the Secondary process. Small background launcher apps
+send actions to the menu-bar controller through distributed notifications.
+
+This is an independent utility, not an official OpenAI product. Multi-instance
+desktop operation is not an upstream guarantee, so app updates may require
+adjustments.
+
+## Development
+
+```zsh
+zsh -n install.sh uninstall.sh
+xcrun swiftc -typecheck -framework AppKit -framework Carbon Sources/CodexAccountSwitcher.swift
+xcrun swiftc -typecheck -framework AppKit Sources/CodexLauncher.swift
+plutil -lint Resources/*.plist
+```
+
+## License
+
+MIT

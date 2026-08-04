@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate scripts
+        run: zsh -n install.sh uninstall.sh
+      - name: Type-check Swift
+        run: |
+          xcrun swiftc -typecheck -framework AppKit -framework Carbon Sources/CodexAccountSwitcher.swift
+          xcrun swiftc -typecheck -framework AppKit Sources/CodexLauncher.swift
+      - name: Validate property lists
+        run: plutil -lint Resources/*.plist
