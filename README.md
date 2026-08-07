@@ -11,6 +11,8 @@ Primary:   ~/.codex       + ~/Library/Application Support/Codex
 Secondary: ~/.codex-work  + ~/Library/Application Support/Codex Second
 ```
 
+before you continue further you can check https://edihasaj.com/posts/two-codex-accounts-two-dock-icons-macos
+
 ## Features
 
 - Open or focus Primary with `Option-Command-1`.
