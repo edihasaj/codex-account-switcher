@@ -129,10 +129,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         switch profile {
         case .primary:
-            codexHome = home.appendingPathComponent(".codex")
+            codexHome = home.appendingPathComponent(".codex-primary")
             arguments += ["--env", "CODEX_HOME=\(codexHome.path)"]
         case .secondary:
-            codexHome = home.appendingPathComponent(".codex-work")
+            codexHome = home.appendingPathComponent(".codex-secondary")
             let appData = home.appendingPathComponent(
                 "Library/Application Support/Codex Second"
             )

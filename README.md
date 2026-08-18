@@ -7,8 +7,8 @@ It keeps the official app bundle unchanged. The Secondary profile launches a
 separate process with its own Codex home and Electron data directory:
 
 ```text
-Primary:   ~/.codex       + ~/Library/Application Support/Codex
-Secondary: ~/.codex-work  + ~/Library/Application Support/Codex Second
+Primary:   ~/.codex-primary    + ~/Library/Application Support/Codex
+Secondary: ~/.codex-secondary  + ~/Library/Application Support/Codex Second
 ```
 
 before you continue further you can check https://edihasaj.com/posts/two-codex-accounts-two-dock-icons-macos
@@ -65,7 +65,7 @@ commands when you want to stop one.
 ./uninstall.sh
 ```
 
-Uninstalling leaves `~/.codex`, `~/.codex-work`, and both desktop-data
+Uninstalling leaves `~/.codex-primary`, `~/.codex-secondary`, and both desktop-data
 directories intact.
 
 ## How it works
