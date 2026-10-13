@@ -2,13 +2,32 @@ name: CI
 
 on:
   push:
+    branches: [production]
   pull_request:
+    branches: [production]
+    types: [opened, synchronize, reopened, edited]
+  workflow_dispatch:
+    inputs:
+      run_native:
+        description: Run paid macOS validation
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 jobs:
+  native-policy:
+    name: native policy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: node --test scripts/native-ci-policy.test.mjs
+
   validate:
+    needs: native-policy
+    if: ${{ !cancelled() && ((github.event_name == 'push' && github.ref == 'refs/heads/production') || (github.event_name == 'pull_request' && github.base_ref == 'production') || (github.event_name == 'workflow_dispatch' && inputs.run_native == true)) }}
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v4

@@ -88,6 +88,15 @@ xcrun swiftc -typecheck -framework AppKit Sources/CodexLauncher.swift
 plutil -lint Resources/*.plist
 ```
 
+## CI
+
+Hosted macOS validation runs only for pushes and pull requests targeting
+`production`, or for an explicit manual dispatch with **Run paid macOS
+validation** enabled. The checkbox defaults off. The Linux native-policy job
+checks the workflow on every eligible run; a skipped macOS job is not native
+proof. Run `node --test scripts/native-ci-policy.test.mjs` locally to verify
+the workflow event guards without installing dependencies.
+
 ## License
 
 MIT
